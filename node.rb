@@ -1,10 +1,10 @@
 class Node
 
-  attr_accessor :data, :pointer
+  attr_accessor :data, :next_node
 
-  def initialize(data, pointer = nil)
+  def initialize(data, next_node = nil)
     @data = data
-    @pointer = pointer
+    @next_node = next_node
   end
 
   def head?

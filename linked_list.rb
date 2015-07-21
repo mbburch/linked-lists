@@ -1,18 +1,53 @@
 require "./node.rb"
 
 class LinkedList
-# mike said all the methods should go in the list class and it calls the node class to create new nodes
+# mike said all the methods should go in the list class and it calls the node class to create new nodes. The below is iterative. Try recursive later!
 #
   attr_reader :head
 
-  def push(data)
-    #list only holds reference to one thing... header node(node that represents start of list)
-    @head = data
-    p @head
+  def initialize(node = nil)
+    @head = node
   end
 
-  def empty?
-    @head = nil
+  def append(node)
+    # append node to end of list
+    if @head == nil
+      @head = node
+    else
+      current = @head
+      until current.next_node == nil
+        current = current.next_node
+      end
+      current.next_node = node
+    end
+  end
+
+  def prepend(node)
+    if @head.nil?
+      @head = node
+    else
+      node.next_node = @head
+      @head = node
+    end
+  end
+
+  def insert(index, node)
+  end
+
+  # def push(data)
+  #   #list only holds reference to one thing... header node(node that represents start of list)
+  #   @head = data
+  #   p @head
+  # end
+
+  # def empty?
+  #   @head = nil
+  # end
+
+  def includes?
+  end
+
+  def pop
   end
 
   def count
@@ -31,6 +66,11 @@ class LinkedList
   #   end
   #   end
   end
+
+=begin
+if inserting a node in the middle of list, you need to tell node ahead of it that  its' new next node will be the next node 
+of node being removed before you set node being removed to nil
+=end
 
 
 end
