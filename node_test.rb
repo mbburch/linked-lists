@@ -6,25 +6,15 @@ require_relative 'node'
 
 class NodeTest < Minitest::Test
 
-  def test_it_knows_if_it_is_head
-    #can a node know it is head??
+  def test_it_knows_if_it_is_root
     node = Node.new
-    
-    assert node.head?
+    assert node.root?
   end
 
   def test_it_knows_if_it_is_tail
-    #node will know it is tail if it has nil as next node
-    skip
-    node = Node.new
+    node = Node.new("pizza")
     refute node.head?
+    assert node.tail?
   end
-
-  def test_it_knows_its_numeric_position
-    skip
-  end
-
-
-
 
 end

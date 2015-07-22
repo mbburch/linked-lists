@@ -7,7 +7,7 @@ class Node
     @next_node = next_node
   end
 
-  def head?
+  def root?
     @data.nil?
   end
 

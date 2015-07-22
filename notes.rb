@@ -3,14 +3,19 @@
 **nothing is run from command line…
 they'll just be checking our tests.
 
+TO DO!!!!!!!!!!!:::::
+
+Node tests
+
 **40-60 tests. About 5 tests for each method.
 Test edge cases and such. Throw in curve balls.
+
 
 Edge Cases:
 
 Append-
 Prepend-
-Insert- request to insert at position higher than count; 
+Insert- request to insert at position higher than count;
 Includes?-
 Pop-
 Count-
