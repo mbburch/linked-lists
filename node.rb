@@ -12,7 +12,7 @@ class Node
   end
 
   def tail?
-    @next.nil?
+    @next_node.nil?
   end
 
 end

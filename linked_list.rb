@@ -1,12 +1,14 @@
 require "./node.rb"
+require 'pry'
 
 class LinkedList
-# mike said all the methods should go in the list class and it calls the node class to create new nodes. The below is iterative. Try recursive later!
-#
-
 
   def initialize
     @root = Node.new
+  end
+
+  def empty?
+    @root.next_node == nil
   end
 
   def head
@@ -18,11 +20,11 @@ class LinkedList
   end
 
   def find_tail
-    current = @root
-    until current.next_node == nil
-      current = current.next_node
+    current_node = @root
+    until current_node.next_node == nil
+      current_node = current_node.next_node
     end
-    current
+    current_node
   end
 
   def append(data)
@@ -38,19 +40,21 @@ class LinkedList
       @root.next_node = node
   end
 
-  def find_node(index)
-    current = @root
-    current_index = -1
-    until current_index == index
-      current = current.next_node
-      current_index += 1
+  def insert(index, data)
+    if index > count
+      unreached_index(index, data)
+    elsif index <= count
+      included_index(index, data)
     end
-    current
   end
 
-  def insert(index, data)
-    # how to find the node we'll be working with?
-    # similar to tail, except stop at number. counts from zero to number as it iterates
+  def unreached_index(index, data)
+    append(data)
+    index = count
+    "List only has #{count} items. #{Data} appended at position #{index}."
+  end
+
+  def included_index(index, data)
     node = Node.new(data)
     previous = find_node(index - 1)
     if previous.next_node
@@ -59,49 +63,88 @@ class LinkedList
       previous.next_node = node
   end
 
-  # def push(data)
-  #   #list only holds reference to one thing... header node(node that represents start of list)
-  #   @head = data
-  #   p @head
-  # end
-
-  # def empty?
-  #   @head = nil
-  # end
-
-  def include?
+  def includes?(data)
+    current_node = @root
+    while current_node.data != data && current_node.next_node
+      current_node = current_node.next_node
+    end
+    current_node.data == data
   end
 
   def pop
+    tail_data = tail
+    current_node = @root
+    until current_node.next_node == nil
+      previous_node = current_node
+      current_node = current_node.next_node
+    end
+    previous_node.next_node = nil
+    current_node.data
   end
 
   def count
-    # list check with head
-    # if head is nil, list is empty and count = 0
-    # if head is not empty, and head next is nil, count is one
-    # if head next != nil, add one to count, and keep passing the message
-    # once a node.next returns nil, that will be the final count
-    if @root.nil?
-      counter == 0
-      current = @root
+    current_node = @root
+    counter = 0
+    if current_node.next_node == nil
+      counter
     else
-      until current.next_node == nil
-      current = current.next_node
-      counter += 1
+      until current_node.next_node == nil
+        current_node = current_node.next_node
+        counter += 1
       end
       counter
     end
   end
 
+  def find_node(index)
+    current_node = @root
+    current_node_index = -1
+    until current_node_index == index
+      current_node = current_node.next_node
+      current_node_index += 1
+    end
+    current_node
+  end
+
+  def find_by_index(index)
+    find_node(index).data
+  end
+
+  def find_by_value(data)
+    current_node = @root
+    current_node_index = -1
+    until current_node.data == data
+      current_node = current_node.next_node
+      current_node_index += 1
+    end
+    current_node_index
+  end
+
+  def remove_by_index(index)
+    previous_node = find_node(index - 1)
+    current_node = find_node(index)
+    previous_node.next_node = current_node.next_node
+    current_node.data
+  end
+
+  def remove_by_value(data)
+    current_node = @root
+    until current_node.data == data
+      previous_node = current_node
+      current_node = current_node.next_node
+    end
+    previous_node.next_node = current_node.next_node
+    current_node.data
+  end
+
 end
-
-
-#if inserting a node in the middle of list, you need to tell node ahead of it that  its' new next node will be the next node
-#of node being removed before you set node being removed to nil
-
 
 
 if __FILE__ == $0
   list = LinkedList.new
-  node = Node.new("data")
+  list.append("popcorn")
+  list.append("almonds")
+  list.append("peanuts")
+  list.append("apples")
+  puts list.insert(7, "candy")
 end

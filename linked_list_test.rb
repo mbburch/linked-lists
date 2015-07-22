@@ -1,133 +1,217 @@
-# uses methods which call themselves to walk through nodes
-
 require 'minitest/autorun'
 require 'minitest/pride'
 require'./linked_list'
+require 'pry'
 
 class LinkedListTest < Minitest::Test
 
   def test_empty_list_can_append_node
     list = LinkedList.new
-    list.append("data")
-    assert_equal "data", list.head
+    list.append("gum")
+    assert_equal "gum", list.head
+    assert_equal 1, list.count
   end
 
   def test_list_with_one_node_can_append_second_node
     list = LinkedList.new
-    list.append("data1")
-    list.append("data2")
-    assert_equal "data2", list.tail
+    list.append("popcorn")
+    list.append("peanuts")
+    assert_equal "peanuts", list.tail
+    assert_equal 2, list.count
   end
 
   def test_list_with_two_nodes_can_append_third_node
-    skip
-    # change language
     list = LinkedList.new
-    node = Node.new("data1")
-    node2 = Node.new("data2")
-    node3 = Node.new("data3")
-    list.append(node)
-    list.append(node2)
-    list.append(node3)
-    assert_equal node3, list.head.next_node.next_node
+    list.append("popcorn")
+    list.append("peanuts")
+    list.append("nachos")
+    assert_equal "popcorn", list.head
+    assert_equal "nachos", list.tail
   end
 
   def test_empty_list_can_prepend_node
-    skip
     list = LinkedList.new
-    node = Node.new("data")
-    list.prepend(node)
-    assert_equal node, list.head
+    list.prepend("gum")
+    assert_equal "gum", list.head
+    assert_equal 1, list.count
   end
 
   def test_list_with_one_node_can_prepend_second_node
     list = LinkedList.new
-    list.prepend("data1")
-    list.prepend("data2")
-    assert_equal "data2", list.head
-    assert_equal "data1", list.tail
+    list.prepend("popcorn")
+    list.prepend("peanuts")
+    assert_equal "peanuts", list.head
+    assert_equal "popcorn", list.tail
   end
 
-  def test_it_returns_true_if_supplied_value_is_in_list
-    skip
+  def test_list_with_two_nodes_can_prepend_third_node
     list = LinkedList.new
-    node1 = Node.new("apple")
-    node2 = Node.new("banana")
-    node3 = Node.new("orange")
-    node4 = Node.new("kiwi")
-    assert list.include?("kiwi")
+    list.prepend("popcorn")
+    list.prepend("peanuts")
+    list.prepend("nachos")
+    assert_equal "nachos", list.head
+    assert_equal "popcorn", list.tail
+    assert_equal 3, list.count
   end
 
-  def test_it_returns_false_if_supplied_value_is_not_in_list
-    skip
+  def test_it_inserts_a_node_at_given_index_in_empty_list
     list = LinkedList.new
-    node1 = Node.new("apple")
-    node2 = Node.new("banana")
-    node3 = Node.new("orange")
-    node4 = Node.new("pear")
-    refute list.include?("kiwi")
+    list.insert(0, "popcorn")
+    assert_equal "popcorn", list.head
   end
 
-  def test_it_inserts_a_node_at_arbitrary_list_position_in_empty_list
-    # how to account for numbers greater than list contents? append? add data in between??
+  def test_it_inserts_a_node_at_given_index
     list = LinkedList.new
-    list.insert(0, "data1")
-    assert_equal "data1", list.head
-  end
-
-  def test_it_inserts_a_node_at_arbitrary_list_position
-    # how to account for numbers greater than list contents? append? add data in between??
-    list = LinkedList.new
-    list.append("hello")
-    list.append("yo")
+    list.append("popcorn")
+    list.append("almonds")
     list.append("peanuts")
-    list.insert(2, "data1")
-    assert_equal "data1", list.find_by_index
-    # go back to assignment to look at language for methods here
+    list.insert(2, "popcorn")
+    assert_equal "popcorn", list.find_by_index(2)
+  end
+
+  def test_it_appends_node_if_given_index_greater_than_list_count
+    list = LinkedList.new
+    list.append("popcorn")
+    list.append("almonds")
+    list.append("peanuts")
+    list.insert(7, "popcorn")
+    assert_equal "popcorn", list.find_by_index(3)
+  end
+
+  def test_it_returns_true_if_list_includes_given_value
+    list = LinkedList.new
+    list.append("popcorn")
+    list.append("almonds")
+    list.append("peanuts")
+    list.append("apples")
+    assert list.includes?("apples")
+  end
+
+  def test_it_returns_false_if_list_does_not_include_given_value
+    list = LinkedList.new
+    list.append("popcorn")
+    list.append("almonds")
+    list.append("peanuts")
+    list.append("apples")
+    refute list.includes?("pear")
   end
 
   def test_it_pops_node_from_end_of_list
-    skip
+    list = LinkedList.new
+    list.append("popcorn")
+    list.append("almonds")
+    list.append("peanuts")
+    list.append("apples")
+    assert_equal list.find_node(3).next_node, nil
+    assert_equal "apples", list.pop
+    assert_equal 3, list.count
+    refute list.includes?("apples")
   end
 
-  def test_it_returns_head_value_at_beginning_of_list
-    skip
+  def test_it_does_not_pop_node_from_middle_of_list
+    list = LinkedList.new
+    list.append("popcorn")
+    list.append("almonds")
+    list.append("peanuts")
+    list.append("apples")
+    refute_equal "almonds", list.pop
   end
 
-  def test_it_returns_tail_value_at_end_of_list
-    skip
+  def test_it_counts_number_of_nodes_in_list_if_list_not_empty
+    list = LinkedList.new
+    list.append("popcorn")
+    list.append("almonds")
+    list.append("peanuts")
+    list.append("apples")
+    expected = 4
+    result = list.count
+    assert_equal expected, result
   end
 
-  def test_it_finds_the_value_at_a_numeric_position
-    skip
-  end
-
-  def test_it_finds_position_of_first_occurence_of_a_value
-    skip
-  end
-
-  def test_it_removes_the_value_at_specified_index
-    skip
-  end
-
-  def test_it_removes_the_first_occurence_of_specified_value
-    skip
-  end
-
-  def test_it_knows_if_the_list_is_empty
-    skip
-      list = LinkedList.new
-      expected = true
-      result = list.empty?
-      assert_equal expected, result
-  end
-
-  def test_it_counts_number_of_nodes_in_list
-    skip
+  def test_it_counts_number_of_nodes_in_list_if_list_empty
     list = LinkedList.new
     expected = 0
     result = list.count
     assert_equal expected, result
+  end
+
+
+  def test_it_returns_head_value_at_beginning_of_list
+    list = LinkedList.new
+    list.append("popcorn")
+    list.append("almonds")
+    list.append("peanuts")
+    list.append("apples")
+    assert_equal "popcorn", list.head
+    refute_equal "peanuts", list.head
+  end
+
+  def test_it_returns_tail_value_at_end_of_list
+    list = LinkedList.new
+    list.append("popcorn")
+    list.append("almonds")
+    list.append("peanuts")
+    list.append("apples")
+    assert_equal "apples", list.tail
+    refute_equal "peanuts", list.tail
+  end
+
+  def test_it_finds_the_value_at_given_index
+    list = LinkedList.new
+    list.append("popcorn")
+    list.append("almonds")
+    list.append("peanuts")
+    list.insert(3, "popcorn")
+    assert_equal "popcorn", list.find_by_index(3)
+  end
+
+  def test_it_finds_position_of_first_occurrence_of_a_value
+    list = LinkedList.new
+    list.append("popcorn")
+    list.append("almonds")
+    list.append("peanuts")
+    list.append("apples")
+    assert_equal 3, list.find_by_value("apples")
+  end
+
+  def test_it_removes_the_value_at_specified_index
+    list = LinkedList.new
+    list.append("popcorn")
+    list.append("almonds")
+    list.append("peanuts")
+    list.append("apples")
+    assert_equal "peanuts", list.remove_by_index(2)
+    assert_equal 3, list.count
+    refute list.includes?("peanuts")
+  end
+
+  def test_it_removes_the_first_occurrence_of_specified_value
+    list = LinkedList.new
+    list.append("popcorn")
+    list.append("almonds")
+    list.append("peanuts")
+    list.append("apples")
+    list.append("almonds")
+    assert_equal "almonds", list.remove_by_value("almonds")
+    assert_equal 4, list.count
+    assert list.includes?("almonds")
+  end
+
+  def test_it_knows_if_the_list_is_empty
+    list = LinkedList.new
+    assert list.empty?
+  end
+
+  def test_it_finds_the_distance_between_two_nodes
+    list = LinkedList.new
+    list.append("popcorn")
+    list.append("almonds")
+    list.append("peanuts")
+    list.append("apples")
+    index1 = list.find_by_value("apples")
+    index2 = list.find_by_value("almonds")
+    result = (index1 - index2).abs
+    assert_equal 2, result
   end
 
 end
