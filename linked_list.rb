@@ -139,7 +139,6 @@ class LinkedList
 
 end
 
-
 if __FILE__ == $0
   list = LinkedList.new
   list.append("popcorn")
