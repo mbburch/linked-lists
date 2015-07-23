@@ -37,7 +37,7 @@ class LinkedList
     if @root.next_node
      node.next_node = @root.next_node
     end
-      @root.next_node = node
+    @root.next_node = node
   end
 
   def insert(index, data)
@@ -60,7 +60,7 @@ class LinkedList
     if previous.next_node
      node.next_node = previous.next_node
     end
-      previous.next_node = node
+    previous.next_node = node
   end
 
   def includes?(data)
@@ -135,6 +135,12 @@ class LinkedList
     end
     previous_node.next_node = current_node.next_node
     current_node.data
+  end
+
+  def distance_between(data1, data2)
+    index1 = find_by_value(data1)
+    index2 = find_by_value(data2)
+    (index1 - index2).abs
   end
 
 end

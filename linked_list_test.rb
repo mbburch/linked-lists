@@ -236,10 +236,9 @@ class LinkedListTest < Minitest::Test
     list.append("almonds")
     list.append("peanuts")
     list.append("apples")
-    index1 = list.find_by_value("apples")
-    index2 = list.find_by_value("almonds")
-    result = (index1 - index2).abs
-    assert_equal 2, result
+    result = list.distance_between("apples", "almonds")
+    expected = 2
+    assert_equal expected, result
   end
 
 end
